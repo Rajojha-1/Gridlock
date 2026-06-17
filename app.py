@@ -256,11 +256,17 @@ if uploaded_file is not None:
         
         with col1:
             st.markdown("<p style='text-align:center; font-weight:600; color:#495057;'>Original Traffic Feed</p>", unsafe_allow_html=True)
-            st.image(image, use_container_width=True)
+            try:
+                st.image(image, use_container_width=True)
+            except TypeError:
+                st.image(image, use_column_width=True)
             
         with col2:
             st.markdown("<p style='text-align:center; font-weight:600; color:#495057;'>AI Annotated Feed</p>", unsafe_allow_html=True)
-            st.image(annotated_image, use_container_width=True)
+            try:
+                st.image(annotated_image, use_container_width=True)
+            except TypeError:
+                st.image(annotated_image, use_column_width=True)
             
         # ----------------------------------------------------
         # VIOLATIONS LOG / TABLE
