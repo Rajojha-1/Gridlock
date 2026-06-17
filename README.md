@@ -1,6 +1,5 @@
 ---
 title: TrafficAI Bengaluru
-emoji: 🚦
 colorFrom: blue
 colorTo: yellow
 sdk: streamlit
