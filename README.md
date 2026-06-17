@@ -126,9 +126,3 @@ streamlit run app.py
 
 ---
 
-## ☁️ Deploying to Hugging Face Spaces
-
-1. Create a new Space on Hugging Face: select **Streamlit** as the SDK.
-2. Link your GitHub repository or push directly to the HF remote.
-3. Hugging Face ZeroGPU is fully supported. The `@spaces.GPU` decorator inside `utils/inference.py` ensures the parallel YOLO execution is assigned GPU resources on-demand.
-4. If you aren't using LFS on Hugging Face, upload the `.pt` weights directly into the `models/` folder using the Space's web interface.
