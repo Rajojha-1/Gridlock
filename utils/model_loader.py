@@ -56,7 +56,11 @@ def load_ocr_reader():
     """
     try:
         use_gpu = torch.cuda.is_available()
-        reader = easyocr.Reader(['en'], gpu=use_gpu)
+        # Use packaged models path to avoid downloading on Hugging Face startup
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        model_dir = os.path.join(base_dir, 'easyocr_models')
+        os.makedirs(model_dir, exist_ok=True)
+        reader = easyocr.Reader(['en'], gpu=use_gpu, model_storage_directory=model_dir)
         return reader
     except Exception as e:
         st.sidebar.warning(f"EasyOCR could not be initialized: {e}. OCR features will fallback to simulation.")

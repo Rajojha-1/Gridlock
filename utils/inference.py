@@ -1,5 +1,6 @@
 import concurrent.futures
 import streamlit as st
+import torch
 
 # Safe import for Hugging Face ZeroGPU spaces decorator
 try:
@@ -22,14 +23,17 @@ def run_parallel_inference(models, image_np, conf_threshold=0.5):
     """
     raw_results = {}
     
+    # Determine target device dynamically inside the GPU context
+    device = 'cuda' if torch.cuda.is_available() else 'cpu'
+    
     # Worker function for single model inference
     def run_single_inference(model_name, model):
         if model is None:
             return []
         try:
-            # Run YOLOv8 prediction
+            # Run YOLOv8 prediction on the dynamic target device
             # verbose=False suppresses logging in terminal
-            preds = model.predict(source=image_np, conf=conf_threshold, verbose=False)
+            preds = model.predict(source=image_np, conf=conf_threshold, device=device, verbose=False)
             if len(preds) > 0:
                 return preds[0]
         except Exception as e:

@@ -41,12 +41,16 @@ st.sidebar.markdown(f"""
 
 st.sidebar.subheader("⚙️ System Status")
 
-# Initialize and check model status
-yolo_models = load_yolo_models()
-ocr_reader = load_ocr_reader()
-
-model_loaded_count = sum(1 for m in yolo_models.values() if m is not None)
-total_models = len(yolo_models)
+# Check model weights existence (fast disk check, no model load)
+model_paths = {
+    'helmet': 'models/helmet.pt',
+    'plate': 'models/plate.pt',
+    'triple': 'models/triple.pt',
+    'seatbelt': 'models/seatbelt.pt',
+    'bengaluru': 'models/bengaluru.pt'
+}
+weights_exist = {name: os.path.exists(path) for name, path in model_paths.items()}
+all_models_present = all(weights_exist.values())
 
 # Display status of each YOLO model
 st.sidebar.markdown("**YOLOv8 Models Status:**")
@@ -58,13 +62,11 @@ model_names = {
     'bengaluru': 'Bengaluru Vehicle Model'
 }
 
-all_models_present = True
 for key, label in model_names.items():
-    if yolo_models.get(key) is not None:
-        st.sidebar.markdown(f"✅ {label}: `Loaded`")
+    if weights_exist.get(key):
+        st.sidebar.markdown(f"✅ {label}: `Ready` (Loads on demand)")
     else:
         st.sidebar.markdown(f"❌ {label}: `Weights Missing`")
-        all_models_present = False
 
 # Auto-toggle simulation mode if weights are missing
 if not all_models_present:
@@ -206,9 +208,15 @@ if uploaded_file is not None:
             if sim_mode:
                 raw_detections, raw_plates = generate_simulated_detections(w, h, baseline_conf)
             else:
-                with st.spinner("🚀 Running 5 YOLOv8 models in parallel (ThreadPoolExecutor)..."):
+                with st.spinner("🚀 Loading 5 YOLOv8 models..."):
+                    yolo_models = load_yolo_models()
+                
+                with st.spinner("🚀 Running parallel inference (ThreadPoolExecutor)..."):
                     # Run parallel inference at baseline threshold
                     raw_detections = run_parallel_inference(yolo_models, image_np, baseline_conf)
+                
+                with st.spinner("🔍 Initializing EasyOCR..."):
+                    ocr_reader = load_ocr_reader()
                 
                 with st.spinner("🔍 Segmenting license plate regions and running EasyOCR..."):
                     # Deduplicate and OCR process plates

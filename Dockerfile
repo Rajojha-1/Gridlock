@@ -18,6 +18,10 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Pre-download EasyOCR models to avoid download delays on cold starts
+RUN python -c "import easyocr; easyocr.Reader(['en'], model_storage_directory='/app/easyocr_models')"
+
+
 # Copy all project files into the container
 COPY . .
 
