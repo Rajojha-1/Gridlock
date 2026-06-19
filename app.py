@@ -64,7 +64,7 @@ model_names = {
 
 for key, label in model_names.items():
     if weights_exist.get(key):
-        st.sidebar.markdown(f"✅ {label}: `Ready` (Loads on demand)")
+        st.sidebar.markdown(f"✅ {label}: `Ready`")
     else:
         st.sidebar.markdown(f"❌ {label}: `Weights Missing`")
 
@@ -208,24 +208,24 @@ if uploaded_file is not None:
                 raw_detections, raw_plates = generate_simulated_detections(w, h, baseline_conf)
             else:
                 if 'models_loaded' not in st.session_state:
-                    with st.spinner("🚀 Loading 5 YOLOv8 models (first-time initialization)..."):
+                    with st.spinner("Loading 5 YOLOv8 models"):
                         yolo_models = load_yolo_models()
                     st.session_state['models_loaded'] = True
                 else:
                     yolo_models = load_yolo_models()
                 
-                with st.spinner("🚀 Running parallel inference (ThreadPoolExecutor)..."):
+                with st.spinner("Running parallel inference"):
                     # Run parallel inference at baseline threshold
                     raw_detections = run_parallel_inference(yolo_models, image_np, baseline_conf)
                 
                 if 'ocr_loaded' not in st.session_state:
-                    with st.spinner("🔍 Initializing EasyOCR (first-time initialization)..."):
+                    with st.spinner("Initializing EasyOCR"):
                         ocr_reader = load_ocr_reader()
                     st.session_state['ocr_loaded'] = True
                 else:
                     ocr_reader = load_ocr_reader()
                 
-                with st.spinner("🔍 Segmenting license plate regions and running EasyOCR..."):
+                with st.spinner("Segmenting license plate regions and running EasyOCR..."):
                     # Deduplicate and OCR process plates
                     raw_detections, raw_plates = process_license_plates(image_np, raw_detections, ocr_reader)
             
