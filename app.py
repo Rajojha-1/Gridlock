@@ -196,12 +196,11 @@ if uploaded_file is not None:
             or st.session_state['cached_hash'] != file_hash
             or 'sim_mode_state' not in st.session_state
             or st.session_state['sim_mode_state'] != sim_mode
+            or 'raw_detections' not in st.session_state
+            or 'raw_plates' not in st.session_state
         )
         
         if should_run_inference:
-            st.session_state['cached_hash'] = file_hash
-            st.session_state['sim_mode_state'] = sim_mode
-            
             # Baseline threshold of 15% to capture all potential detections (e.g. low-conf triple riding)
             baseline_conf = 0.15
             
@@ -222,8 +221,11 @@ if uploaded_file is not None:
                     # Deduplicate and OCR process plates
                     raw_detections, raw_plates = process_license_plates(image_np, raw_detections, ocr_reader)
             
+            # Save to session state only after successful run to avoid partial initialization bugs
             st.session_state['raw_detections'] = raw_detections
             st.session_state['raw_plates'] = raw_plates
+            st.session_state['cached_hash'] = file_hash
+            st.session_state['sim_mode_state'] = sim_mode
             
         # Dynamically filter cached detections based on current slider threshold
         detections = [d for d in st.session_state['raw_detections'] if d['confidence'] >= conf_threshold]
