@@ -207,14 +207,22 @@ if uploaded_file is not None:
             if sim_mode:
                 raw_detections, raw_plates = generate_simulated_detections(w, h, baseline_conf)
             else:
-                with st.spinner("🚀 Loading 5 YOLOv8 models..."):
+                if 'models_loaded' not in st.session_state:
+                    with st.spinner("🚀 Loading 5 YOLOv8 models (first-time initialization)..."):
+                        yolo_models = load_yolo_models()
+                    st.session_state['models_loaded'] = True
+                else:
                     yolo_models = load_yolo_models()
                 
                 with st.spinner("🚀 Running parallel inference (ThreadPoolExecutor)..."):
                     # Run parallel inference at baseline threshold
                     raw_detections = run_parallel_inference(yolo_models, image_np, baseline_conf)
                 
-                with st.spinner("🔍 Initializing EasyOCR..."):
+                if 'ocr_loaded' not in st.session_state:
+                    with st.spinner("🔍 Initializing EasyOCR (first-time initialization)..."):
+                        ocr_reader = load_ocr_reader()
+                    st.session_state['ocr_loaded'] = True
+                else:
                     ocr_reader = load_ocr_reader()
                 
                 with st.spinner("🔍 Segmenting license plate regions and running EasyOCR..."):
