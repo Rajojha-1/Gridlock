@@ -6,3 +6,9 @@ __pycache__/
 # OS specific files
 .DS_Store
 Thumbs.db
+
+# EasyOCR downloaded models cache
+easyocr_models/
+
+# Uploaded test files
+uploaded_test.png

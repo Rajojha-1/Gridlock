@@ -39,12 +39,12 @@ def plot_violation_breakdown(df):
         x='Violation Type',
         y='Count',
         labels={'Violation Type': 'Violation Category', 'Count': 'Number of Incidents'},
-        color_discrete_sequence=[PRIMARY_NAVY]
+        color_discrete_sequence=['#6366f1']  # Premium Indigo
     )
     
     # Premium layout styling
     fig.update_traces(
-        marker_line_color=ACCENT_YELLOW,
+        marker_line_color='rgba(99, 102, 241, 0.5)',
         marker_line_width=1.5,
         opacity=0.9,
         texttemplate='%{y}',
@@ -54,21 +54,21 @@ def plot_violation_breakdown(df):
     fig.update_layout(
         title=dict(
             text="Violation Category Analysis",
-            font=dict(family="Outfit, sans-serif", size=18, color=PRIMARY_NAVY, weight="bold")
+            font=dict(family="Outfit, sans-serif", size=18, color="#ffffff")
         ),
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         margin=dict(t=50, b=30, l=40, r=20),
         xaxis=dict(
             showgrid=False,
-            title_font=dict(family="Inter, sans-serif", size=12, color="#495057"),
-            tickfont=dict(family="Inter, sans-serif", size=11, color="#495057")
+            title_font=dict(family="Inter, sans-serif", size=12, color="#94a3b8"),
+            tickfont=dict(family="Inter, sans-serif", size=11, color="#cbd5e1")
         ),
         yaxis=dict(
             showgrid=True,
-            gridcolor="#e9ecef",
-            title_font=dict(family="Inter, sans-serif", size=12, color="#495057"),
-            tickfont=dict(family="Inter, sans-serif", size=11, color="#495057")
+            gridcolor="rgba(255, 255, 255, 0.08)",
+            title_font=dict(family="Inter, sans-serif", size=12, color="#94a3b8"),
+            tickfont=dict(family="Inter, sans-serif", size=11, color="#cbd5e1")
         ),
         hovermode="x unified"
     )
@@ -103,12 +103,12 @@ def plot_confidence_distribution(df):
         x='Confidence %',
         nbins=10,
         labels={'Confidence %': 'Confidence (Percent)', 'count': 'Frequency'},
-        color_discrete_sequence=[ACCENT_YELLOW]
+        color_discrete_sequence=['#fbbf24']  # Premium Gold/Amber
     )
     
     # Premium layout styling
     fig.update_traces(
-        marker_line_color=PRIMARY_NAVY,
+        marker_line_color='rgba(251, 191, 36, 0.5)',
         marker_line_width=1.0,
         opacity=0.85
     )
@@ -116,21 +116,21 @@ def plot_confidence_distribution(df):
     fig.update_layout(
         title=dict(
             text="Model Confidence Distribution",
-            font=dict(family="Outfit, sans-serif", size=18, color=PRIMARY_NAVY, weight="bold")
+            font=dict(family="Outfit, sans-serif", size=18, color="#ffffff")
         ),
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         margin=dict(t=50, b=30, l=40, r=20),
         xaxis=dict(
             showgrid=False,
-            title_font=dict(family="Inter, sans-serif", size=12, color="#495057"),
-            tickfont=dict(family="Inter, sans-serif", size=11, color="#495057")
+            title_font=dict(family="Inter, sans-serif", size=12, color="#94a3b8"),
+            tickfont=dict(family="Inter, sans-serif", size=11, color="#cbd5e1")
         ),
         yaxis=dict(
             showgrid=True,
-            gridcolor="#e9ecef",
-            title_font=dict(family="Inter, sans-serif", size=12, color="#495057"),
-            tickfont=dict(family="Inter, sans-serif", size=11, color="#495057")
+            gridcolor="rgba(255, 255, 255, 0.08)",
+            title_font=dict(family="Inter, sans-serif", size=12, color="#94a3b8"),
+            tickfont=dict(family="Inter, sans-serif", size=11, color="#cbd5e1")
         )
     )
     
