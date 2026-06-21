@@ -570,12 +570,12 @@ if uploaded_file is not None:
                         c1, c2 = st.columns(2)
                         with c1:
                             if veh_crop is not None:
-                                st.image(veh_crop, caption="Visual Evidence", use_container_width=True)
+                                st.image(veh_crop, caption="Visual Evidence", use_column_width=True)
                             else:
                                 st.info("No vehicle crop available")
                         with c2:
                             if plate_crop is not None:
-                                st.image(plate_crop, caption="Plate Bounding Crop", use_container_width=True)
+                                st.image(plate_crop, caption="Plate Bounding Crop", use_column_width=True)
                             else:
                                 st.info("No plate crop available")
                                 
